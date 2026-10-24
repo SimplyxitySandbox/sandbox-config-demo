@@ -1,0 +1,7 @@
+# How SimplyReview reviews this repository (simply-review docs/CONFIG.md).
+min_severity: P1
+guidelines: |
+  Money is integer pence everywhere: never floating point, and never pounds.
+  Dates are compared as Date objects or epoch milliseconds, never as strings.
+ignore:
+  - "src/generated/**"
