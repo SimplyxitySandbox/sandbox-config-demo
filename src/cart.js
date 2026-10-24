@@ -1,3 +1,5 @@
+import { COUPONS } from "./generated/coupons.js";
+
 /**
  * A cart's total, in integer pence.
  * @param {{ pricePence: number, quantity: number }[]} items
@@ -10,4 +12,19 @@ export function totalPence(items) {
     }
     return sum + item.pricePence * item.quantity;
   }, 0);
+}
+
+/**
+ * The total after a coupon, in pence. An unknown or expired coupon changes nothing.
+ * @param {number} total
+ * @param {string} code
+ * @param {Date} now
+ */
+export function applyCoupon(total, code, now = new Date()) {
+  const coupon = COUPONS[code.toUpperCase()];
+  if (!coupon) return total;
+  // coupon.expires is an ISO date string, e.g. "2026-12-31".
+  if (coupon.expires < now.getTime()) return total;
+  var discounted = total - total * (coupon.percent / 100);
+  return discounted;
 }
